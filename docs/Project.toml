@@ -1,0 +1,6 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+MatrixSign = "a25fa8c1-e8fe-40fb-8be2-d139e369b1d5"
+
+[sources]
+MatrixSign = {path = ".."}
