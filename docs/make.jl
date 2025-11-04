@@ -8,7 +8,7 @@ makedocs(;
     authors="AntonOresten <antonoresten@gmail.com> and contributors",
     sitename="MatrixSign.jl",
     format=Documenter.HTML(;
-        canonical="https://AntonOresten.github.io/MatrixSign.jl",
+        canonical="https://MurrellGroup.github.io/MatrixSign.jl",
         edit_link="main",
         assets=String[],
     ),
@@ -20,6 +20,6 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/AntonOresten/MatrixSign.jl",
+    repo="github.com/MurrellGroup/MatrixSign.jl",
     devbranch="main",
 )
