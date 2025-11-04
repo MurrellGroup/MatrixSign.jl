@@ -9,7 +9,7 @@ using MacroTools: @capture
 using NNlib: batched_mul!, batched_transpose
 
 export msign, msign!
-export SVDMethod, JordanMethod, PolarExpress
+export PolarExpress, JordanMethod, SVDMethod
 
 include("newtonschulz5/newtonschulz5.jl")
 include("msign.jl")

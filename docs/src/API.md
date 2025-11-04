@@ -6,5 +6,5 @@ CurrentModule = MatrixSign
 
 ```@docs
 msign
-msign!!
+msign!
 ```

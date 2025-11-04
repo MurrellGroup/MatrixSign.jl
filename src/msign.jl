@@ -1,20 +1,13 @@
-"""
+#=
     MatrixSignMethod
 
 Abstract type for matrix sign methods.
-
-Subtypes of this type are expected to implement the following methods:
-
-- `msign(X::AbstractArray, ::Type{M}; kws...)`
-- `msign!(X::AbstractArray, ::Type{M}; kws...)`
-"""
+=#
 abstract type MatrixSignMethod end
 
 include("methods/SVDMethod.jl")
 
-@doc raw"""
-    QuinticNewtonSchulzMethod <: MatrixSignMethod
-
+#=
 Takes advantage of the following equivalence to change the singular values of a matrix,
 where ``p`` is an odd quintic polynomial of the form ``p(x) = aX + bX(X^TX) + cX(X^TX)^2``:
 
@@ -36,7 +29,7 @@ so we can approximate the sign of a matrix by approximating the scalar sign func
 
 Depending on the coefficients and number of steps, we can trade off accuracy for speed.
 See [`JordanMethod`](@ref), [`YouMethod`](@ref), and [`PolarExpress`](@ref).
-"""
+=#
 abstract type QuinticNewtonSchulzMethod <: MatrixSignMethod end
 
 norm2(X::AbstractArray) = sum(abs2, X; dims=(1,2))
@@ -53,7 +46,18 @@ end
 include("methods/JordanMethod.jl")
 include("methods/PolarExpress.jl")
 
+"""
+    msign(X::AbstractArray; kws...)
+
+Return the sign of `X` using the [`PolarExpress`](@ref) method.
+"""
 msign(X::AbstractArray; kws...) = msign(X, PolarExpress; kws...)
+
+"""
+    msign!(X::AbstractArray; kws...)
+
+Return the sign of `X` using the [`PolarExpress`](@ref) method in-place.
+"""
 msign!(X::AbstractArray; kws...) = msign!(X, PolarExpress; kws...)
 
 msign(X::AbstractVector; kws...) = LinearAlgebra.normalize(X)

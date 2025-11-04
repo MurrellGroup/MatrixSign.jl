@@ -21,6 +21,11 @@ function msign(X::AbstractMatrix, ::Type{SVDMethod})
     return U * Vt
 end
 
+"""
+    msign!(X::AbstractMatrix, ::Type{SVDMethod})
+
+Return the sign of `X` using the SVD method in-place.
+"""
 function msign!(X::AbstractMatrix, ::Type{SVDMethod})
     (; U, Vt) = svd(X)
     return @mul! X = U * Vt
