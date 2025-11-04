@@ -55,3 +55,6 @@ include("methods/PolarExpress.jl")
 
 msign(X::AbstractArray; kws...) = msign(X, PolarExpress; kws...)
 msign!(X::AbstractArray; kws...) = msign!(X, PolarExpress; kws...)
+
+msign(X::AbstractVector; kws...) = LinearAlgebra.normalize(X)
+msign!(X::AbstractVector; kws...) = LinearAlgebra.normalize!(X)
