@@ -25,10 +25,10 @@ end
                     s in [8, 32, 128, 512],
                     r in [1, 2, 4, 1//2, 1//4],
                     b in [(), 1, 2],
-                    interval in [1, 2, 3, 4],
+                    fused in [1, 2, 3, 4],
                     init in INITS
         X = init(T, s, Int(s * r), b...)
-        O = @view msign(X, PolarExpress; interval, steps)[:, :, end]
+        O = @view msign(X, PolarExpress; fused, steps)[:, :, end]
         @test opnorm(O) ≈ 1 rtol=rtol
         @test mean(svd(O).S) ≈ 1 rtol=rtol
     end
