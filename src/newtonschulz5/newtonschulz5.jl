@@ -7,7 +7,8 @@ aspect_ratio(X) = is_tall(X) ? size(X, 1) / size(X, 2) : size(X, 2) / size(X, 1)
 similar_square(X::AbstractArray, n = min(size(X, 1), size(X, 2))) = similar(X, n, n, size(X)[3:end]...)
 
 function newtonschulz5!(X::AbstractArray, coefficients; fused=1)
-    X′ = reshape(X, size(X, 1), size(X, 2), :)
+    batch_size = ndims(X) > 2 ? (:,) : ()
+    X′ = reshape(X, size(X, 1), size(X, 2), batch_size...)
     if aspect_ratio(X′) < 2.5 || fused < 2
         naive_newtonschulz5!(X′, coefficients)
     else
