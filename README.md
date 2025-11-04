@@ -14,9 +14,9 @@ MatrixSign.jl is a Julia package for computing the matrix sign, or more generall
 ## Features
 
 - Newton-Schulz-based methods rely entirely on in-place generic matrix multiplication to minimize memory usage, and to be very fast on GPUs.
-- Differentiable with custom chain rules.
-- Fixed memory w.r.t. steps (except for checkpoints in chain rule).
-- Fused polynomial iteration to optimize performance for rectangular matrices (See Algorithm 4 in Polar Express[^1]).
+- Differentiable via custom chain rules.
+- Fixed memory w.r.t. the number of steps (except for checkpoints in chain rule).
+- Fused polynomial iteration to optimize performance for rectangular matrices (see Algorithm 4 in Polar Express[^1]) with only slightly increased memory usage.
 - Batched matrix sign for inputs with more than 2 dimensions.
 
 ## Usage
@@ -33,6 +33,12 @@ true
 
 julia> msign(Float32.(X), steps=14) ≈ msign(Float32.(X), SVDMethod)
 true
+
+julia> @b msign($(Float32.(X)), SVDMethod)
+186.368 ms (21 allocs: 28.094 MiB, 2.29% gc time)
+
+julia> @b msign($(Float32.(X)), steps=14)
+65.203 ms (20 allocs: 20.001 MiB, 0.96% gc time)
 ```
 
 For Newton-Schulz-based methods, `Float16` matrices would underflow, so they are converted to `BFloat16` by default, which may only perform well on supported hardware.
@@ -70,7 +76,7 @@ julia> CUDA.@allocated msign(X, PolarExpress, steps=8, fused=3)
 ## Recommendations
 
 - Use `PolarExpress` for most cases.
-  - For many use-cases, particularly with `randn`-like inputs, the majority of singular values get close to 1 in just ~5-7 steps. A few extra steps may sometimes be necessary to bring up the smallest singular values, but this is not always important.
+  - In many cases, particularly with `randn`-like inputs, the majority of singular values get close to 1 in just ~5-7 steps. A few extra steps may sometimes be needed to bring up the smallest singular values, but this is not always important.
   - Take advantage of the `fused` keyword to optimize performance for rectangular matrices with aspect ratios great than `2.5`.
   - For smaller data types like `BFloat16`, `fused` beyond `3` can lead to error accumulation.
 - Use `JordanMethod` for parity with the original Muon[^2].
