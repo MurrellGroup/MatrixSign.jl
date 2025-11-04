@@ -82,6 +82,6 @@ julia> CUDA.@allocated msign(X, PolarExpress, steps=8, fused=3)
 
 ## References
 
-[^1] [The Polar Express: Optimal Matrix Sign Methods and Their Application to the Muon Algorithm](https://arxiv.org/pdf/2505.16932)
+[^1]: [The Polar Express: Optimal Matrix Sign Methods and Their Application to the Muon Algorithm](https://arxiv.org/pdf/2505.16932)
 
-[^2] [Muon: An optimizer for hidden layers in neural networks](https://kellerjordan.github.io/posts/muon/)
+[^2]: [Muon: An optimizer for hidden layers in neural networks](https://kellerjordan.github.io/posts/muon/)
