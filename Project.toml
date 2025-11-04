@@ -1,6 +1,6 @@
 name = "MatrixSign"
 uuid = "a25fa8c1-e8fe-40fb-8be2-d139e369b1d5"
-version = "0.0.1"
+version = "0.1.0"
 authors = ["AntonOresten <antonoresten@gmail.com> and contributors"]
 
 [workspace]
