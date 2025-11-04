@@ -5,11 +5,11 @@
 [![Build Status](https://github.com/MurrellGroup/MatrixSign.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/MurrellGroup/MatrixSign.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/MurrellGroup/MatrixSign.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/MurrellGroup/MatrixSign.jl)
 
-MatrixSign.jl is a Julia package for computing the matrix sign, or more generally, polar factor of a matrix. Three methods are provided:
+MatrixSign.jl is a Julia package for computing the matrix sign — or more generally, the polar factor of a matrix — which is the orthogonal component of the polar decomposition. Three methods are provided:
 
+- **SVD**: uses SVD to compute the exact polar factor using $UV^T$.
 - **Polar Express**[^1]: an optimized variable-step Newton-Schulz polynomial iteration with optimal coefficients to compute the polar factor more accurately.
 - **Keller Jordan's 5-step**[^2]: a 5-step quintic Newton-Schulz polynomial iteration to compute a noisy approximation of the polar factor.
-- **SVD**: uses SVD to compute the exact polar factor using $UV^T$.
 
 ## Features
 
