@@ -1,7 +1,7 @@
 using Base: @constprop
 
 @doc raw"""
-    PolarExpress <: QuinticNewtonSchulzMethod
+    PolarExpress
 
 Uses a variable-step quintic Newton-Schulz iteration to achieve
 accuracy close to or equal to [`SVDMethod`](@ref) given enough steps,

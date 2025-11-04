@@ -47,16 +47,17 @@ include("methods/JordanMethod.jl")
 include("methods/PolarExpress.jl")
 
 """
-    msign(X::AbstractArray; kws...)
+    msign(X::AbstractArray, method=PolarExpress; kws...)
 
-Return the sign of `X` using the [`PolarExpress`](@ref) method.
+Return the sign of `X` using the [`PolarExpress`](@ref) method as the default.
 """
 msign(X::AbstractArray; kws...) = msign(X, PolarExpress; kws...)
 
 """
-    msign!(X::AbstractArray; kws...)
+    msign!(X::AbstractArray, method=PolarExpress; kws...)
 
-Return the sign of `X` using the [`PolarExpress`](@ref) method in-place.
+Return the sign of `X` using the [`PolarExpress`](@ref) method as the default,
+mutating `X` in-place.
 """
 msign!(X::AbstractArray; kws...) = msign!(X, PolarExpress; kws...)
 

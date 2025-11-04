@@ -1,5 +1,5 @@
 @doc raw"""
-    SVDMethod <: MatrixSignMethod
+    SVDMethod
 
 Uses a costly singular value decomposition to compute the sign of a matrix.
 
@@ -8,24 +8,11 @@ Then the sign, or more generally polar factor, of ``\bold{M}`` is given by ``UV^
 """
 abstract type SVDMethod <: MatrixSignMethod end
 
-"""
-    msign(X::AbstractMatrix, ::Type{SVDMethod})
-
-Return the sign of `X` using the SVD method.
-This is the most accurate method for computing the matrix sign,
-albeit while typically being an order of magnitude slower than
-e.g. [`PolarExpress`](@ref).
-"""
 function msign(X::AbstractMatrix, ::Type{SVDMethod})
     (; U, Vt) = svd(X)
     return U * Vt
 end
 
-"""
-    msign!(X::AbstractMatrix, ::Type{SVDMethod})
-
-Return the sign of `X` using the SVD method in-place.
-"""
 function msign!(X::AbstractMatrix, ::Type{SVDMethod})
     (; U, Vt) = svd(X)
     return @mul! X = U * Vt

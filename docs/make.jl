@@ -5,7 +5,7 @@ DocMeta.setdocmeta!(MatrixSign, :DocTestSetup, :(using MatrixSign); recursive=tr
 
 makedocs(;
     modules=[MatrixSign],
-    authors="AntonOresten <antonoresten@gmail.com> and contributors",
+    authors="Anton Oresten <antonoresten@gmail.com> and contributors",
     sitename="MatrixSign.jl",
     format=Documenter.HTML(;
         canonical="https://MurrellGroup.github.io/MatrixSign.jl",
@@ -14,8 +14,6 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
-        "Methods" => "methods.md",
-        "API" => "API.md",
     ],
 )
 

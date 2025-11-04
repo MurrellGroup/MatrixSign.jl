@@ -1,5 +1,5 @@
 @doc raw"""
-    JordanMethod <: QuinticNewtonSchulzMethod
+    JordanMethod
 
 Uses a 5-step quintic Newton-Schulz iteration to compute a coarse
 approximation of the sign of a matrix, with singular values roughly
