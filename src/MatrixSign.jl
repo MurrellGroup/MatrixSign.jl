@@ -1,15 +1,17 @@
 module MatrixSign
 
-using ChainRulesCore
+using Base: @constprop
+using BFloat16s: BFloat16
+using ChainRulesCore: ChainRulesCore, rrule, @ignore_derivatives
+using FillArrays: Fill, Eye
 using LinearAlgebra
+using MacroTools: @capture
+using NNlib: batched_mul!, batched_transpose
 
-export msign, msign!!
-export SVDMethod, JordanMethod, YouMethod, PolarExpress
+export msign, msign!
+export SVDMethod, JordanMethod, PolarExpress
 
-maywrite(::DenseArray) = true
-maywrite(_) = false
-
-include("newtonschulz5.jl")
+include("newtonschulz5/newtonschulz5.jl")
 include("msign.jl")
 
 end

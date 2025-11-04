@@ -1,3 +1,5 @@
+using Base: @constprop
+
 @doc raw"""
     PolarExpress <: QuinticNewtonSchulzMethod
 
@@ -21,36 +23,49 @@ const COEFFICIENTS_POLAR_EXPRESS = (
     (1.875, -1.25, 0.375),
 )
 
-function get_coefficients(::Type{PolarExpress}, ::Val{F}, ::Type{T}, ::Val{S}) where {F,T,S}
-    coefficients = map(x -> T.(x), COEFFICIENTS_POLAR_EXPRESS)
+const SAFETY_FACTOR_POLAR_EXPRESS = 1.1
+
+function get_coefficients(::Type{PolarExpress}, ::Type{T}, ::Val{F}, ::Val{S}) where {T,F,S}
+    coefficients = COEFFICIENTS_POLAR_EXPRESS
     N = length(coefficients)
     scaled = map(enumerate(coefficients)) do (i, (a, b, c))
-        f = i < N ? T(F) : one(T)
+        f = i < N ? F : 1
         (a / f, b / f^3, c / f^5)
     end
     base = ntuple(i -> scaled[i], Val(min(S, N)))
     padding = ntuple(i -> last(scaled), Val(max(0, S - N)))
-    return (base..., padding...)
+    coefficients′ = (base..., padding...)
+    T′ = promote_type(T, Float32)
+    return map(x -> T′.(x), coefficients′)
 end
 
-Base.@constprop :aggressive function msign(
+@constprop :aggressive function msign(
     X::AbstractArray{T}, ::Type{PolarExpress};
-    steps::Int=8, batched::Bool=false
+    steps=8, safety_factor=SAFETY_FACTOR_POLAR_EXPRESS,
+    kws...
 ) where T
-    coefficients = @ignore_derivatives get_coefficients(PolarExpress, Val(1.01), T, Val(steps))
-    return msign(
-        X, QuinticNewtonSchulzMethod;
-        coefficients, batched, safety_factor = T(1.01)
-    )
+    coefficients = @ignore_derivatives get_coefficients(PolarExpress, T, Val(safety_factor), Val(steps))
+    return newtonschulz5(normalize(X; safety_factor), coefficients; kws...)
 end
 
-Base.@constprop :aggressive function msign!!(
+@constprop :aggressive function msign!(
     X::AbstractArray{T}, ::Type{PolarExpress};
-    steps::Int=8, batched::Bool=false
+    steps=8, safety_factor=SAFETY_FACTOR_POLAR_EXPRESS,
+    kws...
 ) where T
-    coefficients = get_coefficients(PolarExpress, Val(1.01), T, Val(steps))
-    return msign!!(
-        X, QuinticNewtonSchulzMethod;
-        coefficients, batched, safety_factor = T(1.01)
-    )
+    coefficients = get_coefficients(PolarExpress, T, Val(safety_factor), Val(steps))
+    return newtonschulz5!(normalize!(X; safety_factor), coefficients; kws...)
+end
+
+function msign!(X::AbstractArray{Float16}, ::Type{PolarExpress}; kws...)
+    XB = BFloat16.(X)
+    msign!(XB, PolarExpress; kws...)
+    X .= XB
+    return X
+end
+
+function msign(X::AbstractArray{Float16}, ::Type{PolarExpress}; kws...)
+    XB = BFloat16.(X)
+    msign!(XB, PolarExpress; kws...)
+    return Float16.(XB)
 end

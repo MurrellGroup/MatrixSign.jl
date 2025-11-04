@@ -20,3 +20,8 @@ function msign(X::AbstractMatrix, ::Type{SVDMethod})
     (; U, Vt) = svd(X)
     return U * Vt
 end
+
+function msign!(X::AbstractMatrix, ::Type{SVDMethod})
+    (; U, Vt) = svd(X)
+    return @mul! X = U * Vt
+end

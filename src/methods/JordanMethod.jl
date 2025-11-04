@@ -10,18 +10,33 @@ networks](https://kellerjordan.github.io/posts/muon/)
 """
 abstract type JordanMethod <: QuinticNewtonSchulzMethod end
 
-const COEFFICIENTS_JORDAN = (3.4445, -4.7750, 2.0315)
+const COEFFICIENTS_JORDAN = (3.4445f0, -4.7750f0, 2.0315f0)
 
-function msign(X::AbstractArray{T}, ::Type{JordanMethod}) where T
-    return msign(
-        X, QuinticNewtonSchulzMethod;
-        coefficients = ntuple(Returns(T.(COEFFICIENTS_JORDAN)), Val(5))
-    )
+@constprop :aggressive function msign(
+    X::AbstractArray, ::Type{JordanMethod};
+    steps=5, kws...
+)
+    coefficients = ntuple(Returns(COEFFICIENTS_JORDAN), Val(steps))
+    return newtonschulz5(normalize(X), coefficients; kws...)
 end
 
-function msign!!(X::AbstractArray{T}, ::Type{JordanMethod}) where T
-    return msign!!(
-        X, QuinticNewtonSchulzMethod;
-        coefficients = ntuple(Returns(T.(COEFFICIENTS_JORDAN)), Val(5))
-    )
+@constprop :aggressive function msign!(
+    X::AbstractArray, ::Type{JordanMethod};
+    steps=5, kws...
+)
+    coefficients = ntuple(Returns(COEFFICIENTS_JORDAN), Val(steps))
+    return newtonschulz5!(normalize!(X), coefficients; kws...)
+end
+
+function msign!(X::AbstractArray{Float16}, ::Type{JordanMethod}; kws...)
+    XB = BFloat16.(X)
+    msign!(XB, JordanMethod; kws...)
+    X .= XB
+    return X
+end
+
+function msign(X::AbstractArray{Float16}, ::Type{JordanMethod}; kws...)
+    XB = BFloat16.(X)
+    msign!(XB, JordanMethod; kws...)
+    return Float16.(XB)
 end
