@@ -73,6 +73,8 @@ julia> CUDA.@allocated msign(X, PolarExpress, steps=8, fused=3)
 33555234
 ```
 
+Note that the allocations and memory usage shown next to the benchmark time under the `@b` calls is CPU-only, and the GPU memory usage is shown under the `CUDA.@allocated` calls.
+
 ## Recommendations
 
 - Use `PolarExpress` for most cases.
