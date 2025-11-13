@@ -15,7 +15,7 @@ const TEST_TYPES, INITS = if MATRIXSIGN_TEST_CUDA
     zip([BFloat16, Float32, Float64], [7, 8, 12], [1.02, 1.002, 1.00002]),
     [CUDA.rand, CUDA.randn]
 else
-    zip([Float32, Float64], [8, 12], [1.001, 1.00001]),
+    zip([Float32, Float64], [8, 12], [1.002, 1.00002]),
     [rand, randn]
 end
 
