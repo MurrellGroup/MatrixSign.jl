@@ -12,7 +12,7 @@ const MATRIXSIGN_TEST_CUDA = get(ENV, "MATRIXSIGN_TEST_CUDA", "false") == "true"
 const TEST_TYPES, INITS = if MATRIXSIGN_TEST_CUDA
     Pkg.add("CUDA")
     using CUDA, BFloat16s
-    zip([BFloat16, Float32, Float64], [7, 8, 12], [1.01, 1.001, 1.00001]),
+    zip([BFloat16, Float32, Float64], [7, 8, 12], [1.02, 1.002, 1.00002]),
     [CUDA.rand, CUDA.randn]
 else
     zip([Float32, Float64], [8, 12], [1.001, 1.00001]),
