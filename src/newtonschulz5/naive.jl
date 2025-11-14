@@ -6,8 +6,7 @@ function naive_newtonschulz5_step!(
 )
     if is_tall(X)
         XᵀX = @mul! A = (X)ᵀ * X
-        B .= XᵀX
-        @mul! b(B) + c(XᵀX^2)        # B ← bXᵀX + cXᵀXXᵀX
+        @mul! b(B .= XᵀX) + c(XᵀX^2)        # B ← bXᵀX + cXᵀXXᵀX
         @mul! a(Y) + X * B           # Y ← aX + XB = aX + bXXᵀX + cXXᵀXXᵀX
     else
         XXᵀ = @mul! A = X * (X)ᵀ
