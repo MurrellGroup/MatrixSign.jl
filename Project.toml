@@ -1,6 +1,6 @@
 name = "MatrixSign"
 uuid = "a25fa8c1-e8fe-40fb-8be2-d139e369b1d5"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Anton Oresten <antonoresten@gmail.com> and contributors"]
 
 [workspace]
@@ -15,7 +15,7 @@ MacroTools = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 NNlib = "872c559c-99b0-510c-b3b7-b6c96a88d5cd"
 
 [compat]
-BFloat16s = "0.6.0"
+BFloat16s = "0.5, 0.6"
 ChainRulesCore = "1"
 FillArrays = "1.14.0"
 LinearAlgebra = "1"
